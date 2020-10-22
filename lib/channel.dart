@@ -29,8 +29,8 @@ class HeroesChannel extends ApplicationChannel {
     final router = Router();
 
     //* linking HeroresController to the router
-
-    router.route('/heroes').link(() => HeroesController());
+    //  declare the :id portion of our route to be optional by wrapping it in square brackets.
+    router.route('/heroes/[:id]').link(() => HeroesController());
 
     // Prefer to use `link` instead of `linkFunction`.
     // See: https://aqueduct.io/docs/http/request_controller/

@@ -1,1 +1,6 @@
-http://localhost:8888/heroes
+/// List all the heroes
+// http://localhost:8888/heroes
+
+/// acessing specific hero by its id
+// http://localhost:8888/heroes/10
+
