@@ -1,36 +1,36 @@
-import 'heroes.dart';
 import './controller/heroes_controller.dart';
+import 'heroes.dart';
 
-/// This type initializes an application.
-///
-/// Override methods in this class to set up routes and initialize services like
-/// database connections. See http://aqueduct.io/docs/http/channel/.
 class HeroesChannel extends ApplicationChannel {
-  /// Initialize services in this method.
-  ///
-  /// Implement this method to initialize services, read values from [options]
-  /// and any other initialization required before constructing [entryPoint].
-  ///
-  /// This method is invoked prior to [entryPoint] being accessed.
+  ManagedContext context;
+
   @override
   Future prepare() async {
     logger.onRecord.listen(
         (rec) => print("$rec ${rec.error ?? ""} ${rec.stackTrace ?? ""}"));
+
+    // ManagedDataModel.fromCurrentMirrorSystem()will find all of our ManagedObjects<T>
+    // subclasses nd compile them into data model.
+
+    final dataModel = ManagedDataModel.fromCurrentMirrorSystem();
+
+    // PostgreSQLPersistentStore takes database connection info
+    // it will use to connect and nd send queries to db.
+
+    final persistentStore = PostgreSQLPersistentStore.fromConnectionInfo(
+        "heroes_user", "password", "localhost", 5432, "heroes");
+
+    //both above objects packed in  ManagedContext
+    context = ManagedContext(dataModel, persistentStore);
   }
 
-  /// Construct the request channel.
-  ///
-  /// Return an instance of some [Controller] that will be the initial receiver
-  /// of all [Request]s.
-  ///
-  /// This method is invoked after [prepare].
   @override
   Controller get entryPoint {
     final router = Router();
 
     //* linking HeroresController to the router
     //  declare the :id portion of our route to be optional by wrapping it in square brackets.
-    router.route('/heroes/[:id]').link(() => HeroesController());
+    router.route('/heroes/[:id]').link(() => HeroesController(context));
 
     // Prefer to use `link` instead of `linkFunction`.
     // See: https://aqueduct.io/docs/http/request_controller/
