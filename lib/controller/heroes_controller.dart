@@ -1,7 +1,8 @@
 import 'package:aqueduct/aqueduct.dart';
 import 'package:heroes/heroes.dart';
 
-class HeroesController extends Controller {
+//class HeroesController extends Controller {
+class HeroesController extends ResourceController {
   final _heroes = [
     {'id': 10, 'name': 'Amit'},
     {'id': 11, 'name': 'Mr. Nice'},
@@ -11,19 +12,45 @@ class HeroesController extends Controller {
     {'id': 15, 'name': 'Magneta'},
   ];
 
-  @override
-  Future<RequestOrResponse> handle(Request request) async {
-    if (request.path.variables.containsKey('id')) {
-      final id = int.parse(request.path.variables['id']);
-      final hero = _heroes.firstWhere(
-        (eachMap) => eachMap['id'] == id,
-        orElse: () => null,
-      );
-      if (hero == null) {
-        return Response.notFound();
-      }
-      return Response.ok(hero);
-    }
+  //! We want to create distinct method for each operations
+  // ! but we have only one handle method
+
+  // @override
+  // Future<RequestOrResponse> handle(Request request) async {
+  //   print("handle running");
+  //   if (request.path.variables.containsKey('id')) {
+  //     final id = int.parse(request.path.variables['id']);
+  //     final hero = _heroes.firstWhere(
+  //       (eachMap) => eachMap['id'] == id,
+  //       orElse: () => null,
+  //     );
+  //     if (hero == null) {
+  //       return Response.notFound();
+  //     }
+  //     return Response.ok(hero);
+  //   }
+  //   return Response.ok(_heroes);
+  // }
+
+  //? Using Resource Controller for creating distinct method
+  // ? For each Operations.
+
+  @Operation.get()
+  Future<Response> getAllHeroes() async {
+    print("getAllHeroes running");
     return Response.ok(_heroes);
+  }
+
+  @Operation.get('id')
+  Future<Response> getHeroByID() async {
+    print("getHeroByID running");
+    final id = int.parse(request.path.variables['id']);
+    final hero =
+        _heroes.firstWhere((hero) => hero['id'] == id, orElse: () => null);
+    if (hero == null) {
+      return Response.notFound();
+    }
+
+    return Response.ok(hero);
   }
 }
