@@ -42,11 +42,16 @@ class HeroesController extends ResourceController {
   }
 
   @Operation.get('id')
-  Future<Response> getHeroByID() async {
+  Future<Response> getHeroByID(@Bind.path('id') int heroId) async {
     print("getHeroByID running");
-    final id = int.parse(request.path.variables['id']);
+
+    //! what if we fail to parse the id
+    //! it throws 500 error code, without any error message
+    // ! so using @bind.path() to generate better error code
+
+    //final id = int.parse(request.path.variables['id']);
     final hero =
-        _heroes.firstWhere((hero) => hero['id'] == id, orElse: () => null);
+        _heroes.firstWhere((hero) => hero['id'] == heroId, orElse: () => null);
     if (hero == null) {
       return Response.notFound();
     }
