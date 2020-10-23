@@ -2,7 +2,7 @@ import 'package:aqueduct/aqueduct.dart';
 import 'package:heroes/heroes.dart';
 import '../model/hero.dart';
 
-//class HeroesController extends Controller {
+//class HeroesController extends Controller {}
 class HeroesController extends ResourceController {
   HeroesController(this.context);
 
@@ -76,5 +76,14 @@ class HeroesController extends ResourceController {
     }
 
     return Response.ok(hero);
+  }
+
+  @Operation.post()
+  Future<Response> createHero() async {
+    final Map<String, dynamic> body = await request.body.decode();
+    final query = Query<Hero>(context)..values.name = body['name'] as String;
+    final insertHero = await query.insert();
+    //return newly inserted hero in the response
+    return Response.ok(insertHero);
   }
 }

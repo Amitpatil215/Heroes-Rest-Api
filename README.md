@@ -32,6 +32,13 @@ dev_dependencies:
   test: 
   aqueduct_test: 
 ```
+
+request_sender.HTTP
+```
+Use for sending request in VS Code.
+Extension : REST Client
+```
+
 Passwords
 ```
 For postgresql client
