@@ -7,6 +7,16 @@ This browser application is a 'Hero Manager' - it allows a user to view, create,
 
  Open [Hero Manager](http://aqueduct-tutorial.stablekernel.io/#/dashboard)
 
+## Aqueduct document client
+
+ In your project directory, run aqueduct document client and it will generate a file named client.html. Open this file in your browser for a UI that constructs and executes requests that your application supports.
+
+
+```
+Run in the project directory
+ aqueduct document client
+```
+
 ## Running the Application Locally
 
 Run `aqueduct serve` from this directory to run the application. For running within an IDE, run `bin/main.dart`. By default, a configuration file named `config.yaml` will be used.
