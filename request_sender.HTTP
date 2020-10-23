@@ -1,6 +1,8 @@
 /// List all the heroes
 // http://localhost:8888/heroes
 
+http://localhost:8888/heroes?name
+
 /// acessing specific hero by its id
 // http://localhost:8888/heroes/10
 

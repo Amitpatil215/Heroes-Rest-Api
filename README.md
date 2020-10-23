@@ -32,6 +32,12 @@ dev_dependencies:
   test: 
   aqueduct_test: 
 ```
+Passwords
+```
+For postgresql client
+12345
+```
+
 
 ## Running Application Tests
 

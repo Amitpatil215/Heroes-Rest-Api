@@ -44,9 +44,15 @@ class HeroesController extends ResourceController {
   // ? For each Operations.
 
   @Operation.get()
-  Future<Response> getAllHeroes() async {
+  //using curly bracket for @Bind.querry() for handling
+  //search http://localhost:8888/heroes?name=a
+  //for all heroes http://localhost:8888/heroes
+  Future<Response> getAllHeroes({@Bind.query('name') String name}) async {
     print("getAllHeroes running");
     final heroQuery = Query<Hero>(context);
+    if (name != null) {
+      heroQuery.where((x) => x.name).contains(name, caseSensitive: false);
+    }
     final heroes = await heroQuery.fetch();
     return Response.ok(heroes);
   }

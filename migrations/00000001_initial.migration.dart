@@ -22,9 +22,17 @@ class Migration1 extends Migration {
 
   @override
   Future downgrade() async {}
+
   @override
   Future seed() async {
-    final heroNames = ["Mr. Nice", "Narco", "Bombasto", "Celeritas", "Magneta"];
+    final heroNames = [
+      "Amit",
+      "Mr. Nice",
+      "Narco",
+      "Bombasto",
+      "Celeritas",
+      "Magneta"
+    ];
 
     for (final heroName in heroNames) {
       await database.store.execute("INSERT INTO _Hero (name) VALUES (@name)",
